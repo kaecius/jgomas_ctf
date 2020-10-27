@@ -48,15 +48,24 @@ type("CLASS_SOLDIER").
 
 
 
-// Task 1
+// ------------------ Task 1 -----------------------
 
 ?my_position(X,Y,Z);
-?base_position(BaseX,BaseY,BaseZ);
-?objective(FlagX,FlagY, FlagZ);
-
 .println("[TASK - 1] My position: ", math.round(X),", ", math.round(Z));
-.println("[TASK - 1] Distance to the flag: ", math.round( math.abs(X-FlagX) ) , ", ", math.round( math.abs(Z-FlagZ) ));
-.println("[TASK - 1] Distance from the base: ", math.round( math.abs(X-BaseX) ) , ", ", math.round( math.abs(Z-BaseZ) ) );
+
+
+?objective(FlagX,FlagY, FlagZ);
+!distance(pos(FlagX,FlagY,FlagZ)); // Calculate de distance from agent's position to the flag
+?distance(D);
+.println("[TASK - 1] Distance to the flag: ", math.round(D), " units");
+
+
+?base_position(BaseX,BaseY,BaseZ);
+!distance(pos(BaseX,BaseY,BaseZ)); // Calculate de distance from agent's position to the base
+?distance(Db);
+.println("[TASK - 1] Distance from the base: ", math.round(Db) , " units" );
+
+// ------------------ End Task 1 -----------------------
 
 ?debug(Mode); if (Mode<=1) { .println("El numero de objetos es:", Length); }
 
@@ -329,7 +338,7 @@ if (Length > 0) {
 +!init
    <- ?debug(Mode); if (Mode<=1) { .println("YOUR CODE FOR init GOES HERE.")};
    ?my_position(X,Y,Z);
-   +base_position(X,Y,Z).  
+   -+base_position(X,Y,Z).  
 
 
 
