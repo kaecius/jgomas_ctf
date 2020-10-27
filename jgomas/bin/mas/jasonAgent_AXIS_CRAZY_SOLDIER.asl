@@ -48,10 +48,31 @@ patrollingRadius(64).
 
         // ------------- Task 2 ---------------- 
         ?is_crazy(C);
-        if(C == 1){
+        ?rand_mov(N);
+        if(C == 1 & N == 10){
+            -rand_mov(N);
+            +rand_mov(1);
+            .random(X);
+            .println("[TASK - 2] Moving randomly");
+            if(X < 1/5){
+              -+order(up);  
+            }else{
+                if(X < 2/5){
+                    -+order(right);
+                }else{
+                    if(X < 3/5){
+                        -+order(down); 
+                    }else {
+                        -+order(left);
+                    }
+                }
+            }
             // Change to random value .random([up,down,left,right],X);
-            .println(X);
-            //-+order(dir);
+            //
+            //
+        }else{
+            -rand_mov(N);
+            +rand_mov(N+1);
         }
 
 
@@ -324,4 +345,5 @@ patrollingRadius(64).
 
 +!init
    <- ?debug(Mode); if (Mode<=1) { .println("YOUR CODE FOR init GOES HERE.")};
-      -+is_crazy(1).
+      -+is_crazy(1);
+      -+rand_mov(1).
