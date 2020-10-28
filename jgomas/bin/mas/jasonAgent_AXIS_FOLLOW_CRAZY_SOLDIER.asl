@@ -45,40 +45,6 @@ patrollingRadius(64).
         ?fovObjects(FOVObjects);
         .length(FOVObjects, Length);
 
-        // ------------- Task 2 ---------------- 
-        ?is_crazy(C);
-        ?rand_mov(N);
-        if(C == 1 & N == 10){
-            -rand_mov(N);
-            +rand_mov(1);
-            .random(X);
-            .println("[TASK - 2] Moving randomly");
-            if(X < 1/4){
-              -+order(up);  
-            }else{
-                if(X < 2/4){
-                    -+order(right);
-                }else{
-                    if(X < 3/4){
-                        -+order(down); 
-                    }else {
-                        -+order(left);
-                    }
-                }
-            }
-        }else{
-            -rand_mov(N);
-            +rand_mov(N+1);
-
-            if(wanna_follow_me(A)){
-                ?wanna_follow_me(A);
-                ?my_position(X,Y,Z);
-                .concat("order(move,",X,",",Z,")",Content);
-                .send_msg_with_conversation_id(A,tell,Content,"INT");
-                .println("[Task - 3] Come!");
-                -+wanna_follow_me(A);            
-            }
-        }
 
         
         ?debug(Mode); if (Mode<=1) { .println("El numero de objetos es:", Length); }
@@ -140,12 +106,6 @@ patrollingRadius(64).
         !look.
       
 
-+wanna_follow_crazy_one [source(A)]
- <-
-    .println("[TASK - 3] I am the crazy one o.O, follow me!");
-    -+wanna_follow_me(A);
-    -wanna_follow_crazy_one.
-
 /////////////////////////////////
 //  PERFORM ACTIONS
 /////////////////////////////////
@@ -159,6 +119,12 @@ patrollingRadius(64).
  *  It's very useful to overload this plan.
  * 
  */
+
+//------------------ TASK 3 ---------------------
+
+
+
+//------------------ END - TASK 3 ---------------------
 
 +!perform_aim_action
     <-  // Aimed agents have the following format:
@@ -353,7 +319,18 @@ patrollingRadius(64).
 //  Initialize variables
 /////////////////////////////////
 
+      //.concat("wanna_follow_crazy_one",msg);
+      //.send_msg_with_conversation_id(AX,tell,msg,"INT");
+      //.println("[TASK - 3] Asking for crazy agent").
+/*
+?my_team("AXIS",E);
+      .println(AX).
+
+*/
 +!init
    <- ?debug(Mode); if (Mode<=1) { .println("YOUR CODE FOR init GOES HERE.")};
-      -+is_crazy(1);
-      -+rand_mov(1).
+   .my_team("AXIS", E1);
+   .println("[TASK - 3] Who is the crazy one??");
+   .concat("wanna_follow_crazy_one", Content);
+   .send_msg_with_conversation_id(E1,tell,Content,"INT").
+      
