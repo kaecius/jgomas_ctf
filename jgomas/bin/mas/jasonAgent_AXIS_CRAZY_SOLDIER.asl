@@ -54,13 +54,13 @@ patrollingRadius(64).
             +rand_mov(1);
             .random(X);
             .println("[TASK - 2] Moving randomly");
-            if(X < 1/5){
+            if(X < 1/4){
               -+order(up);  
             }else{
-                if(X < 2/5){
+                if(X < 2/4){
                     -+order(right);
                 }else{
-                    if(X < 3/5){
+                    if(X < 3/4){
                         -+order(down); 
                     }else {
                         -+order(left);
