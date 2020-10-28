@@ -167,7 +167,14 @@ if (Length > 0) {
      * <em> It's very useful to overload this plan. </em>
      * 
      */
-+!perform_injury_action .
++!perform_injury_action 
+    <- if(help_ticks(10)){
+        +order(help);
+        -help_ticks(10);
+        +help_ticks(0);
+    }
+    ?help_ticks(H);
+    -+help_ticks(H+1).
     ///<- ?debug(Mode); if (Mode<=1) { .println("YOUR CODE FOR PERFORM_INJURY_ACTION GOES HERE.") }. 
         
 
@@ -315,7 +322,9 @@ if (Length > 0) {
 
 +!init
    <- ?debug(Mode); if (Mode<=1) { .println("YOUR CODE FOR init GOES HERE.")};
-   +my_health(1000).
+   +my_health(1000);
+   +my_ammo(0);
+   +help_ticks(10).
 
 
 
