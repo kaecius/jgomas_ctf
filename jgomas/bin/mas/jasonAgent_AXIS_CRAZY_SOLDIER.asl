@@ -104,7 +104,12 @@ patrollingRadius(64).
  					    ?debug(Mode); if (Mode<=2) { .println("Aiming an enemy. . .", MyTeam, " ", .number(MyTeam) , " ", Team, " ", .number(Team)); }
 					    +aimed_agent(Object);
                         -+aimed("true");
+                       -is_crazy(1);
+                       +is_crazy(0); 
 
+                    }else{
+                        +is_crazy(1);
+                        -is_crazy(0);
                     }
                     
                 }
@@ -138,12 +143,6 @@ patrollingRadius(64).
         //.//;
         !look.
       
-
-+wanna_follow_crazy_one [source(A)]
- <-
-    .println("[TASK - 3] I am the crazy one o.O, follow me!");
-    -+wanna_follow_me(A);
-    -wanna_follow_crazy_one.
 
 /////////////////////////////////
 //  PERFORM ACTIONS
