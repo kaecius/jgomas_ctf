@@ -44,35 +44,6 @@ patrollingRadius(64).
     <-  ?debug(Mode); if (Mode<=2) { .println("Looking for agents to aim."); }
         ?fovObjects(FOVObjects);
         .length(FOVObjects, Length);
-
-        // ------------- Task 2 ---------------- 
-        ?is_crazy(C);
-        ?rand_mov(N);
-        if(C == 1 & N == 10){
-            -rand_mov(N);
-            +rand_mov(1);
-            .random(X);
-            .println("[TASK - 2] Moving randomly");
-            if(X < 1/4){
-              -+order(up);  
-            }else{
-                if(X < 2/4){
-                    -+order(right);
-                }else{
-                    if(X < 3/4){
-                        -+order(down); 
-                    }else {
-                        -+order(left);
-                    }
-                }
-            }
-        }else{
-            -rand_mov(N);
-            +rand_mov(N+1);
-            -+send_position("T5");
-            -+send_position("A5");
-        }
-
         
         ?debug(Mode); if (Mode<=1) { .println("El numero de objetos es:", Length); }
         
@@ -118,12 +89,8 @@ patrollingRadius(64).
 
      -bucle(_).
 
+        
 
-+send_position(A)
-    <- ?my_position(X,Y,Z);
-                .concat("crazy_is(",X,",",Z,")",Content);
-                .send_msg_with_conversation_id(A,tell,Content,"INT");
-                .println("[Task - 3] Come!").
 /////////////////////////////////
 //  LOOK RESPONSE
 /////////////////////////////////
@@ -137,14 +104,17 @@ patrollingRadius(64).
         -+fovObjects(FOVObjects);
         //.//;
         !look.
-      
 
-+wanna_follow_crazy_one [source(A)]
- <-
-    .println("[TASK - 3] I am the crazy one o.O, follow me!");
-    -+wanna_follow_me(A);
-    -wanna_follow_crazy_one.
++crazy_is(X,Y,Z)[source(A)]
+<-  ?speak(B);
+    if(B==1){
+	    .println("Recibido un mensaje de tipo goto de ", A);
+    }
+    !add_task(task("TASK_GOTO_POSITION", A, pos(X, Y, Z), ""));
+	-+state(standing);
+    -crazy_is.
 
+    
 /////////////////////////////////
 //  PERFORM ACTIONS
 /////////////////////////////////
@@ -354,5 +324,5 @@ patrollingRadius(64).
 
 +!init
    <- ?debug(Mode); if (Mode<=1) { .println("YOUR CODE FOR init GOES HERE.")};
-      -+is_crazy(1);
-      -+rand_mov(1).
+        +speak(0).
+
