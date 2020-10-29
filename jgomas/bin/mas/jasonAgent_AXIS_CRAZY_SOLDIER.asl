@@ -45,10 +45,27 @@ patrollingRadius(64).
         ?fovObjects(FOVObjects);
         .length(FOVObjects, Length);
 
-        // ------------- Task 2 ---------------- 
+        // ------------- Task 2 and 3 ---------------- 
+        ?current_task(T);
         ?is_crazy(C);
         ?rand_mov(N);
-        if(C == 1 & N == 10){
+
+        if(current_task(task(_,"TASK_WALKING_PATH",_,_,_))){
+            if(was_crazy(C)){
+                -was_crazy(C);
+            }
+            +was_crazy(C);
+            -is_crazy(C);
+            +is_crazy(0);
+        }else{
+            if(was_crazy(Z)){
+                -is_crazy(0);
+                +is_crazy(Z);
+                -was_crazy(Z);
+            }
+        }
+
+        if(is_crazy(1) & N >= 10){
             -rand_mov(N);
             +rand_mov(1);
             .random(X);
@@ -67,16 +84,27 @@ patrollingRadius(64).
                 }
             }
         }else{
+            .println("TICK NO RANDOM");
             -rand_mov(N);
             +rand_mov(N+1);
+            -order(_);
 
             if(wanna_follow_me(A)){
                 ?wanna_follow_me(A);
                 ?my_position(X,Y,Z);
                 .concat("order(move,",X,",",Z,")",Content);
                 .send_msg_with_conversation_id(A,tell,Content,"INT");
-                .println("[Task - 3] Come!");
+                .println("[Task - 3] Come and protect me!");
                 -+wanna_follow_me(A);            
+            }
+
+            if(wanna_kill_me(B)){
+                ?wanna_kill_me(B);
+                ?my_position(X,Y,Z);
+                .concat("order(move,",X,",",Z,")",Content1);
+                .send_msg_with_conversation_id(B,tell,Content1,"INT");
+                .println("[Task - 4] Come and kill me!");
+                -+wanna_kill_me(B);            
             }
         }
 
@@ -111,7 +139,12 @@ patrollingRadius(64).
  					    ?debug(Mode); if (Mode<=2) { .println("Aiming an enemy. . .", MyTeam, " ", .number(MyTeam) , " ", Team, " ", .number(Team)); }
 					    +aimed_agent(Object);
                         -+aimed("true");
+                        -is_crazy(1);
+                        +is_crazy(0);
 
+                    }else{
+                        -is_crazy(0);
+                        +is_crazy(1);
                     }
                     
                 }
@@ -145,6 +178,13 @@ patrollingRadius(64).
     .println("[TASK - 3] I am the crazy one o.O, follow me!");
     -+wanna_follow_me(A);
     -wanna_follow_crazy_one.
+
+
++wanna_kill_crazy_one [source(A)]
+ <-
+    .println("[TASK - 4] I am the crazy one o.O, try to kill me!");
+    -+wanna_kill_me(A);
+    -wanna_kill_crazy_one.
 
 /////////////////////////////////
 //  PERFORM ACTIONS

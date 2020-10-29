@@ -1,1 +1,1 @@
-http://maguuma:7778/acc
+http://158.227.124.25:7778/acc
