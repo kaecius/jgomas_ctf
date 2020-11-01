@@ -50,22 +50,7 @@ patrollingRadius(64).
         ?is_crazy(C);
         ?rand_mov(N);
 
-        if(current_task(task(_,"TASK_WALKING_PATH",_,_,_))){
-            if(was_crazy(C)){
-                -was_crazy(C);
-            }
-            +was_crazy(C);
-            -is_crazy(C);
-            +is_crazy(0);
-        }else{
-            if(was_crazy(Z)){
-                -is_crazy(0);
-                +is_crazy(Z);
-                -was_crazy(Z);
-            }
-        }
-
-        if(is_crazy(1) & N >= 10){
+        if(is_crazy(1) & (N mod 10) == 0){
             -rand_mov(N);
             +rand_mov(1);
             .random(X);
@@ -84,7 +69,6 @@ patrollingRadius(64).
                 }
             }
         }else{
-            .println("TICK NO RANDOM");
             -rand_mov(N);
             +rand_mov(N+1);
             -order(_);

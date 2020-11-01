@@ -120,12 +120,6 @@ patrollingRadius(64).
  * 
  */
 
-//------------------ TASK 3 ---------------------
-
-
-
-//------------------ END - TASK 3 ---------------------
-
 +!perform_aim_action
     <-  // Aimed agents have the following format:
         // [#, TEAM, TYPE, ANGLE, DISTANCE, HEALTH, POSITION ]
