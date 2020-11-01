@@ -40,52 +40,8 @@ type("CLASS_SOLDIER").
 * <em> It's very useful to overload this plan. </em>
 * 
 */  
-+!get_agent_to_aim
-<-  ?debug(Mode); if (Mode<=2) { .println("Looking for agents to aim."); }
-?fovObjects(FOVObjects);
-.length(FOVObjects, Length);
++!get_agent_to_aim .
 
-?debug(Mode); if (Mode<=1) { .println("El numero de objetos es:", Length); }
-
-if (Length > 0) {
-    +bucle(0);
-    
-    -+aimed("false");
-    
-    while (aimed("false") & bucle(X) & (X < Length)) {
-        
-        //.println("En el bucle, y X vale:", X);
-        
-        .nth(X, FOVObjects, Object);
-        // Object structure
-        // [#, TEAM, TYPE, ANGLE, DISTANCE, HEALTH, POSITION ]
-        .nth(2, Object, Type);
-        
-        ?debug(Mode); if (Mode<=2) { .println("Objeto Analizado: ", Object); }
-        
-        if (Type > 1000) {
-            ?debug(Mode); if (Mode<=2) { .println("I found some object."); }
-        } else {
-            // Object may be an enemy
-            .nth(1, Object, Team);
-            ?my_formattedTeam(MyTeam);
-            
-            if (Team == 200) {  // Only if I'm ALLIED
-				
-                ?debug(Mode); if (Mode<=2) { .println("Aiming an enemy. . .", MyTeam, " ", .number(MyTeam) , " ", Team, " ", .number(Team)); }
-                +aimed_agent(Object);
-                -+aimed("true");
-                
-            }
-            
-        }
-        
-        -+bucle(X+1);
-        
-    }
-    
-    
-}
 
 -bucle(_).
 
@@ -117,23 +73,8 @@ if (Length > 0) {
 *  It's very useful to overload this plan.
 * 
 */
-+!perform_aim_action
-    <-  // Aimed agents have the following format:
-        // [#, TEAM, TYPE, ANGLE, DISTANCE, HEALTH, POSITION ]
-        ?aimed_agent(AimedAgent);
-        ?debug(Mode); if (Mode<=1) { .println("AimedAgent ", AimedAgent); }
-        .nth(1, AimedAgent, AimedAgentTeam);
-        ?debug(Mode); if (Mode<=2) { .println("BAJO EL PUNTO DE MIRA TENGO A ALGUIEN DEL EQUIPO ", AimedAgentTeam);             }
-        ?my_formattedTeam(MyTeam);
-
-
-        if (AimedAgentTeam == 200) {
++!perform_aim_action .
     
-                .nth(6, AimedAgent, NewDestination);
-                ?debug(Mode); if (Mode<=1) { .println("NUEVO DESTINO DEBERIA SER: ", NewDestination); }
-          
-            }
- .
 
 /**
 * Action to do when the agent is looking at.
@@ -262,21 +203,7 @@ if (Length > 0) {
        <-
        
        ?debug(Mode); if (Mode<=1) { .println("YOUR CODE FOR PERFORM_TRESHOLD_ACTION GOES HERE.") }
-       
-       ?my_ammo_threshold(At);
-       ?my_ammo(Ar);
-       
-       if (Ar <= At) { 
-          ?my_position(X, Y, Z);
-          
-         .my_team("fieldops_ALLIED", E1);
-         //.println("Mi equipo intendencia: ", E1 );
-         .concat("cfa(",X, ", ", Y, ", ", Z, ", ", Ar, ")", Content1);
-         .send_msg_with_conversation_id(E1, tell, Content1, "CFA");
-       
-       
-       }
-       
+      
        ?my_health_threshold(Ht);
        ?my_health(Hr);
        
