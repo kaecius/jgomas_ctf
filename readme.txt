@@ -7,7 +7,7 @@ AUTHORS:
     - Erlantz Calvo
     - Unai Carbajo
 
-Spent time: 15h
+Spent time: 18h
 
 
 Note: all the new files are variations of an original .asl file:
